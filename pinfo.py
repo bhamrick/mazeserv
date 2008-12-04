@@ -60,10 +60,19 @@ class pinfo:
 						if c & NORTH:
 							chars[2*i+1][2*j]='@'
 			outstr = ''
+			if self.exploring:
+				for y in range(2*(ymin-(self.ctr.y-5))):
+					outstr+='\n'
 			for y in range(2*ymin,2*ymax+1):
+				if self.exploring:
+					for x in range(2*(xmin-(self.ctr.x-5))):
+						outstr += ' '
 				for x in range(2*xmin,2*xmax+1):
 					outstr += chars[x][y]
 				outstr+='\n'
+			if self.exploring:
+				for y in range(2*((self.ctr.y+6)-ymax)):
+					outstr+='\n'
 			self.conn.sendall(outstr)
 			if self.exploring:
 				descr = ''
