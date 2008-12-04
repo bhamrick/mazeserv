@@ -7,6 +7,7 @@ try:
 	s = socket(AF_INET6,SOCK_STREAM)
 	s.bind((HOST,PORT))
 	s.listen(5)
+	quitflag=False
 	while True:
 		conn,addr = s.accept()
 		print 'Connected by',addr
@@ -18,12 +19,16 @@ try:
 				if cli.exploring:
 					cli.process('show')
 				conn.sendall(prompt)
-				line = conn.recv(1024)[:-2]
-				if line == 'quit':
+				for line in conn.recv(1024)[:-2].split(','):
+					line = line.strip()
+					if line == 'quit':
+						quitflag=True
+						break
+					if line == '':
+						continue
+					cli.process(line)
+				if quitflag:
 					break
-				if line == '':
-					continue
-				cli.process(line)
 			conn.close()
 		else:
 			conn.close()

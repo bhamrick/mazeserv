@@ -22,10 +22,6 @@ class pinfo:
 			if self.maz == None:
 				return
 			chars = []
-			for i in range(2*self.maz.width+1):
-				chars.append([])
-				for j in range(2*self.maz.height+1):
-						chars[i].append(' ')
 			if self.exploring:
 				xmin = max(0,self.ctr.x-5)
 				xmax = min(self.maz.width,self.ctr.x+6)
@@ -36,8 +32,12 @@ class pinfo:
 				xmax = self.maz.width
 				ymin = 0
 				ymax = self.maz.height
-			for i in range(xmin,xmax):
-				for j in range(ymin,ymax):
+			for i in range(2*self.maz.width+1):
+				chars.append([])
+				for j in range(2*self.maz.height+1):
+					chars[i].append(' ')
+			for i in range(self.maz.width):
+				for j in range(self.maz.height):
 					if not self.exploring or self.visible[i][j]:
 						chars[2*i][2*j]='@'
 						chars[2*i+2][2*j]='@'
@@ -60,8 +60,8 @@ class pinfo:
 						if c & NORTH:
 							chars[2*i+1][2*j]='@'
 			outstr = ''
-			for y in range(2*self.maz.height+1):
-				for x in range(2*self.maz.width+1):
+			for y in range(2*ymin,2*ymax+1):
+				for x in range(2*xmin,2*xmax+1):
 					outstr += chars[x][y]
 				outstr+='\n'
 			self.conn.sendall(outstr)
