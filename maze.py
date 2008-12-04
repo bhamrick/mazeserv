@@ -22,6 +22,7 @@ class maze:
 			self.data.append([])
 			for j in range(self.height):
 				self.data[i].append(ord(instr[j*self.width+i]))
+				print self.data[i][j]
 				if ord(instr[j*self.width+i]) & 0x20 != 0:
 					self.cx = i
 					self.cy = j
